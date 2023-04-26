@@ -1,13 +1,16 @@
 {
-  "name": "gpt-commit",
+  "name": "gpt-git",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "vecpeng",
   "license": "ISC",
+  "bin": {
+    "gpt-git": "./index.js"
+  },
   "dependencies": {
     "execa": "^7.1.1",
     "inquirer": "^9.2.0"

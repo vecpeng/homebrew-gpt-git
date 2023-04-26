@@ -19,7 +19,7 @@ async function getCommitMessagesFromDiff(diff) {
         messages: [
           {
             role: "user",
-            content: `Please suggest me a list of good commit messages for my commit, following conventional commit (<type>: <subject>) from the diff: ${diff}, `,
+            content: `Suggest me a few good commit messages for my commit, following conventional commit (<type>: <subject>) from the diff: ${diff}, `,
           },
         ],
       }),
