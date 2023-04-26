@@ -39,7 +39,6 @@ async function getCommitMessagesFromDiff(diff) {
 async function getGitDiff() {
   try {
     const { stdout } = await execa("git", ["diff", "--cached", "--", ":!package-lock.json", ":!yarn.lock", ":!pnpm-lock.yaml"]);
-    console.log("stdout:", stdout)
     return stdout;
   } catch (error) {
     console.error("Error getting git diff", error);
@@ -50,7 +49,7 @@ async function getGitDiff() {
 async function commitWithMessage(message) {
   try {
     await execa("git", ["commit", "-m", message]);
-    console.log("Commit successful");
+    console.log("Commit finished");
   } catch (error) {
     console.error("Error committing changes");
     process.exit(1);
@@ -59,9 +58,8 @@ async function commitWithMessage(message) {
 
 async function main() {
   const gitDiff = await getGitDiff();
-  console.log(gitDiff);
   const commitMessages = await getCommitMessagesFromDiff(gitDiff);
-  console.log(commitMessages);
+  
   const { selectedMessage } = await inquirer.prompt([
     {
       type: "list",
