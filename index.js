@@ -19,7 +19,7 @@ async function getCommitMessagesFromDiff(diff) {
         messages: [
           {
             role: "user",
-            content: `Please generate commit messages from the diff: ${diff}, following conventional commit (<type>: <subject>)`,
+            content: `Please suggest me a list of good commit messages for my commit, following conventional commit (<type>: <subject>) from the diff: ${diff}, `,
           },
         ],
       }),
@@ -38,10 +38,11 @@ async function getCommitMessagesFromDiff(diff) {
 
 async function getGitDiff() {
   try {
-    const { stdout } = await execa("git", ["diff", "--cached"]);
+    const { stdout } = await execa("git", ["diff", "--cached", "--", ":!package-lock.json", ":!yarn.lock", ":!pnpm-lock.yaml"]);
+    console.log("stdout:", stdout)
     return stdout;
   } catch (error) {
-    console.error("Error getting git diff");
+    console.error("Error getting git diff", error);
     process.exit(1);
   }
 }
@@ -58,6 +59,7 @@ async function commitWithMessage(message) {
 
 async function main() {
   const gitDiff = await getGitDiff();
+  console.log(gitDiff);
   const commitMessages = await getCommitMessagesFromDiff(gitDiff);
   console.log(commitMessages);
   const { selectedMessage } = await inquirer.prompt([
